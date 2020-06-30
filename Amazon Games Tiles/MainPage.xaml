@@ -42,8 +42,8 @@
 
                 <Grid.Background>
                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Color="#220849" Offset="0.5" />
-                        <GradientStop Color="#120426" Offset="1.0" />
+                        <GradientStop Color="#ffefd8" Offset="0.5" />
+                        <GradientStop Color="#ffd089" Offset="1.0" />
                     </LinearGradientBrush>
                 </Grid.Background>
 
@@ -71,7 +71,7 @@
                         </Grid>
 
                         <StackPanel Grid.Column="2" Orientation="Horizontal" Padding="10" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0">
-                            <fa:FontAwesome Icon="Search" Foreground="White" Margin="0,0,15,0"/>
+                            <fa:FontAwesome Icon="Search" Foreground="{StaticResource BrushSecundario}" Margin="0,0,15,0"/>
                             <TextBox x:Name="tbBuscador" MinWidth="120"/>
                         </StackPanel>
                     </Grid>
@@ -105,7 +105,7 @@
                                     <controls:ImageEx x:Name="imagenJuegoSeleccionado" Stretch="UniformToFill" IsCacheEnabled="True"/>
                                 </Border>
 
-                                <TextBlock x:Name="tbJuegoSeleccionado" Grid.Column="1" VerticalAlignment="Center" Margin="20,0" TextWrapping="Wrap" Foreground="White" FontSize="18"/>
+                                <TextBlock x:Name="tbJuegoSeleccionado" Grid.Column="1" VerticalAlignment="Center" Margin="20,0" TextWrapping="Wrap" Foreground="{StaticResource BrushSecundario}" FontSize="18"/>
                             </Grid>
 
                             <Grid Grid.Row="1" Padding="20" Background="{StaticResource BrushCuarto}">
@@ -304,7 +304,7 @@
                                     <Grid x:Name="gridPersonalizacionInterior" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
 
-                                <controls:TabView x:Name="tvPersonalizacion" Grid.Column="1" VerticalAlignment="Top" Margin="20,0,0,0" Background="{StaticResource BrushCuarto}">
+                                <controls:TabView x:Name="tvPersonalizacion" Grid.Column="1" VerticalAlignment="Top" Margin="20,0,0,0" Background="{StaticResource BrushTercero}">
                                     <controls:TabViewItem>
                                         <controls:TabViewItem.Header>
                                             <Grid PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
@@ -482,7 +482,7 @@
                             </Grid>
 
                             <StackPanel Orientation="Vertical" Padding="20">
-                                <TextBlock x:Uid="ConfigFileMessage" VerticalAlignment="Center" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                                <TextBlock x:Uid="ConfigFileMessage" VerticalAlignment="Center" Margin="0,0,0,15" TextWrapping="Wrap"/>
 
                                 <Button x:Name="botonBuscarFicheroAmazon" Padding="10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                     <StackPanel Orientation="Horizontal">
@@ -491,8 +491,7 @@
                                     </StackPanel>
                                 </Button>
 
-                                <TextBlock x:Uid="ConfigFile" Margin="0,15,0,0"/>
-                                <TextBlock x:Name="tbFicheroLocalizacionAmazon"/>
+                                <TextBlock x:Name="tbFicheroLocalizacionAmazon" Margin="0,10,0,0"/>
 
                                 <Grid Padding="15" Background="IndianRed" Margin="0,30,0,0">
                                     <Grid.ColumnDefinitions>

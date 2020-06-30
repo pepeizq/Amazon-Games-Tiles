@@ -13,7 +13,7 @@ Imports Windows.UI.Xaml.Media.Animation
 Module Amazon
 
     Public anchoColumna As Integer = 320
-    Dim clave As String = "AmazonCarpeta"
+    Dim clave As String = "AmazonFichero"
 
     Public Async Sub Generar(boolBuscarCarpeta As Boolean)
 
@@ -24,11 +24,8 @@ Module Amazon
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim botonAñadir As Button = pagina.FindName("botonAñadirCarpetaAmazon")
-        botonAñadir.IsEnabled = False
-
-        Dim botonBorrar As Button = pagina.FindName("botonBorrarCarpetasAmazon")
-        botonBorrar.IsEnabled = False
+        Dim botonBuscarFichero As Button = pagina.FindName("botonBuscarFicheroAmazon")
+        botonBuscarFichero.IsEnabled = False
 
         Dim spProgreso As StackPanel = pagina.FindName("spProgreso")
         spProgreso.Visibility = Visibility.Visible
@@ -66,7 +63,7 @@ Module Amazon
             Try
                 Dim picker As New FileOpenPicker
 
-                picker.FileTypeFilter.Add("*")
+                picker.FileTypeFilter.Add(".sqlite")
                 picker.ViewMode = PickerViewMode.List
 
                 Dim fichero As StorageFile = Await picker.PickSingleFileAsync
@@ -74,15 +71,6 @@ Module Amazon
                 tbLocalizacion.Text = fichero.Path
             Catch ex As Exception
 
-            End Try
-        Else
-            Dim fichero As StorageFile = Nothing
-
-            Try
-                fichero = Await StorageApplicationPermissions.FutureAccessList.GetFileAsync(clave)
-                tbLocalizacion.Text = fichero.Path
-            Catch ex As Exception
-                tbLocalizacion.Text = ""
             End Try
         End If
 
@@ -185,8 +173,7 @@ Module Amazon
             gridSeleccionarJuego.Visibility = Visibility.Collapsed
         End If
 
-        botonAñadir.IsEnabled = True
-        botonBorrar.IsEnabled = True
+        botonBuscarFichero.IsEnabled = True
         botonCache.IsEnabled = True
 
     End Sub

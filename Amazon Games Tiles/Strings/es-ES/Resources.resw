@@ -118,159 +118,159 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddTile.Text" xml:space="preserve">
-    <value>Pin Tile</value>
+    <value>Añadir Tile</value>
   </data>
   <data name="Config" xml:space="preserve">
-    <value>Configuration</value>
+    <value>Configuración</value>
   </data>
   <data name="ConfigFindFile.Text" xml:space="preserve">
-    <value>Find File</value>
+    <value>Buscar Fichero</value>
   </data>
   <data name="MoreThings_Contact" xml:space="preserve">
-    <value>Contact</value>
+    <value>Contactar</value>
   </data>
   <data name="GamesDetected" xml:space="preserve">
-    <value>games detected</value>
+    <value>juegos detectados</value>
   </data>
   <data name="MoreThings_HelpTranslate" xml:space="preserve">
-    <value>Help to Translate</value>
+    <value>Ayuda a Traducir</value>
   </data>
   <data name="MoreThings_MoreApps" xml:space="preserve">
-    <value>More Apps</value>
+    <value>Más Apps</value>
   </data>
   <data name="NoFoldersDetected" xml:space="preserve">
-    <value>None</value>
+    <value>Ninguna</value>
   </data>
   <data name="NoGamesDetected.Text" xml:space="preserve">
-    <value>No games detected, go to Configuration</value>
+    <value>No se han detectado juegos, ve a Configuración</value>
+  </data>
+  <data name="MoreThings" xml:space="preserve">
+    <value>Más Cosas</value>
   </data>
   <data name="MoreThings_ReportBug" xml:space="preserve">
-    <value>Report a Bug</value>
+    <value>Informa de un Fallo</value>
   </data>
   <data name="SelectGame.Text" xml:space="preserve">
-    <value>Select a game</value>
+    <value>Selecciona un juego</value>
   </data>
   <data name="MoreThings_SourceCode" xml:space="preserve">
-    <value>Source Code</value>
+    <value>Código Fuente</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Tiles</value>
   </data>
   <data name="MoreThings_VoteApp" xml:space="preserve">
-    <value>Vote the App</value>
+    <value>Vota la App</value>
   </data>
   <data name="ConfigFileMessage.Text" xml:space="preserve">
-    <value>Find the file GameProductInfo.sqlite in C:\Users\[Your User]\AppData\Local\Amazon Games\Data\Games\Sql</value>
+    <value>Busca el fichero GameProductInfo.sqlite en C:\Usuarios\[Tu Usuario]\AppData\Local\Amazon Games\Data\Games\Sql</value>
   </data>
   <data name="StoreDescription" xml:space="preserve">
-    <value>Pin Tiles in the Start Menu of Windows 10 for your Amazon Games App games.</value>
+    <value>Añade Tiles en el menú de Inicio de Windows 10 para tus juegos de la app de Amazon Games.</value>
   </data>
   <data name="GameSelectedTiles.Text" xml:space="preserve">
-    <value>Images to include in the Tile of this game:</value>
+    <value>Imágenes para incluir en la Tile de este juego:</value>
   </data>
   <data name="MoreThings_Back" xml:space="preserve">
-    <value>Back</value>
-  </data>
-  <data name="MoreThings" xml:space="preserve">
-    <value>More Things</value>
+    <value>Volver</value>
   </data>
   <data name="StoreTags" xml:space="preserve">
-    <value>Amazon;Tiles;Tile;Start Menu;Games</value>
+    <value>Amazon;Tiles;Tile;Menu Inicio;Juegos</value>
   </data>
   <data name="Back.Text" xml:space="preserve">
-    <value>Back</value>
+    <value>Volver</value>
   </data>
   <data name="Reset.Text" xml:space="preserve">
     <value>Reset</value>
   </data>
   <data name="ConfigCleanCache.Text" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>Limpiar Cache</value>
   </data>
   <data name="ConfigFolderHowAdd.Content" xml:space="preserve">
-    <value>How to unlock</value>
+    <value>Como desbloquear</value>
   </data>
   <data name="ConfigFolderWarning.Text" xml:space="preserve">
-    <value>Depending on the Windows configuration the file may be hidden</value>
+    <value>Dependiendo de la configuración de Windows la carpeta puede estar oculta</value>
   </data>
   <data name="Options.Text" xml:space="preserve">
-    <value>Options</value>
+    <value>Opciones</value>
   </data>
   <data name="OptionsSource.Text" xml:space="preserve">
-    <value>Source</value>
+    <value>Fuente</value>
   </data>
   <data name="OptionsSourceComputer.Text" xml:space="preserve">
-    <value>Search on your computer</value>
+    <value>Busca en tu Ordenador</value>
   </data>
   <data name="OptionsSourceInfo.Text" xml:space="preserve">
-    <value>Change the image with one on your computer or one on the Internet:</value>
+    <value>Cambia la imagen con una en tu ordenador o una de Internet:</value>
   </data>
   <data name="OptionsSourceUbication.Text" xml:space="preserve">
-    <value>Image Location:</value>
+    <value>Ubicación de la Imagen:</value>
   </data>
   <data name="OptionsSourceUbication1.Content" xml:space="preserve">
-    <value>Inner Box</value>
+    <value>Caja Interior</value>
   </data>
   <data name="OptionsSourceUbication2.Content" xml:space="preserve">
-    <value>Outer box</value>
+    <value>Caja Exterior</value>
   </data>
   <data name="OptionsSourceInternet.Text" xml:space="preserve">
-    <value>Add the image url:</value>
+    <value>Añade la dirección de la imagen:</value>
   </data>
   <data name="OptionsBackground.Text" xml:space="preserve">
-    <value>Background</value>
+    <value>Fondo</value>
   </data>
   <data name="OptionsSourceStretch.Text" xml:space="preserve">
-    <value>Image Stretch:</value>
+    <value>Estiramiento de la imagen:</value>
   </data>
   <data name="OptionsSourceStretch1.Content" xml:space="preserve">
-    <value>Uniform and Fill</value>
+    <value>Uniforme y Rellenar</value>
   </data>
   <data name="OptionsSourceStretch2.Content" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Uniforme</value>
   </data>
   <data name="OptionsSourceStretch3.Content" xml:space="preserve">
-    <value>Fill</value>
+    <value>Rellenar</value>
   </data>
   <data name="OptionsSourceStretch4.Content" xml:space="preserve">
-    <value>None</value>
+    <value>Ninguno</value>
   </data>
   <data name="OptionsDetails.Text" xml:space="preserve">
-    <value>Details</value>
+    <value>Detalles</value>
   </data>
   <data name="OptionsMargin.Text" xml:space="preserve">
-    <value>Margin</value>
+    <value>Margen</value>
   </data>
   <data name="OptionsTitle.Content" xml:space="preserve">
-    <value>Show Game Title</value>
+    <value>Mostrar Título del Juego</value>
   </data>
   <data name="OptionsTitleInfo.Text" xml:space="preserve">
-    <value>The title will be displayed in the Tile at the bottom left</value>
+    <value>El título se mostrará en la Tile abajo a la izquierda</value>
   </data>
   <data name="OptionsMove.Text" xml:space="preserve">
-    <value>Move the Image</value>
+    <value>Mover la Imagen</value>
   </data>
   <data name="OptionsPlatform.Text" xml:space="preserve">
-    <value>Plataform</value>
+    <value>Plataforma</value>
   </data>
   <data name="OptionsPlatformIcon.Content" xml:space="preserve">
-    <value>Show Platform Icon</value>
+    <value>Enseñar Icono de la Plataforma</value>
   </data>
   <data name="OptionsPlatformPosition.Text" xml:space="preserve">
-    <value>Position:</value>
+    <value>Posición:</value>
   </data>
   <data name="OptionsPlatformPosition1.Content" xml:space="preserve">
-    <value>Up Left</value>
+    <value>Arriba Izquierda</value>
   </data>
   <data name="OptionsPlatformPosition2.Content" xml:space="preserve">
-    <value>Up Right</value>
+    <value>Arriba Derecha</value>
   </data>
   <data name="OptionsPlatformPosition3.Content" xml:space="preserve">
-    <value>Down Left</value>
+    <value>Abajo Izquierda</value>
   </data>
   <data name="OptionsPlatformPosition4.Content" xml:space="preserve">
-    <value>Down Right</value>
+    <value>Abajo Derecha</value>
   </data>
   <data name="GamePersonalizationInfo.Text" xml:space="preserve">
-    <value>Click on the image to customize it before adding the Tile</value>
+    <value>Clickea en la imagen para personalizarla antes de añadir la Tile</value>
   </data>
 </root>
