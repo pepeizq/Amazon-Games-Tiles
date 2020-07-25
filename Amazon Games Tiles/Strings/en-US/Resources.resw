@@ -160,10 +160,10 @@
     <value>Vote the App</value>
   </data>
   <data name="ConfigFileMessage.Text" xml:space="preserve">
-    <value>Find the file GameProductInfo.sqlite in C:\Users\[Your User]\AppData\Local\Amazon Games\Data\Games\Sql</value>
+    <value>Select the file GameProductInfo.sqlite in C:\Users\[Your User]\AppData\Local\Amazon Games\Data\Games\Sql</value>
   </data>
   <data name="StoreDescription" xml:space="preserve">
-    <value>Pin Tiles in the Start Menu of Windows 10 for your Amazon Games App games.</value>
+    <value>Pin Tiles in the Start Menu of Windows 10 for your Amazon Games Launcher games.</value>
   </data>
   <data name="GameSelectedTiles.Text" xml:space="preserve">
     <value>Images to include in the Tile of this game:</value>
@@ -272,5 +272,11 @@
   </data>
   <data name="GamePersonalizationInfo.Text" xml:space="preserve">
     <value>Click on the image to customize it before adding the Tile</value>
+  </data>
+  <data name="CacheMode.Text" xml:space="preserve">
+    <value>Cache Mode</value>
+  </data>
+  <data name="CacheMode2.Text" xml:space="preserve">
+    <value>If you activate this mode, the app will download each necessary image of the game to your hard disk to add Tiles.</value>
   </data>
 </root>

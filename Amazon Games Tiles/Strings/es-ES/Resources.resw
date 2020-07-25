@@ -163,7 +163,7 @@
     <value>Vota la App</value>
   </data>
   <data name="ConfigFileMessage.Text" xml:space="preserve">
-    <value>Busca el fichero GameProductInfo.sqlite en C:\Usuarios\[Tu Usuario]\AppData\Local\Amazon Games\Data\Games\Sql</value>
+    <value>Selecciona el fichero GameProductInfo.sqlite en C:\Usuarios\[Tu Usuario]\AppData\Local\Amazon Games\Data\Games\Sql</value>
   </data>
   <data name="StoreDescription" xml:space="preserve">
     <value>Añade Tiles en el menú de Inicio de Windows 10 para tus juegos de la app de Amazon Games.</value>
@@ -272,5 +272,11 @@
   </data>
   <data name="GamePersonalizationInfo.Text" xml:space="preserve">
     <value>Clickea en la imagen para personalizarla antes de añadir la Tile</value>
+  </data>
+  <data name="CacheMode.Text" xml:space="preserve">
+    <value>Modo Cache</value>
+  </data>
+  <data name="CacheMode2.Text" xml:space="preserve">
+    <value>Si activas este modo, la app descarga en tu disco duro cada imagen necesaria del juego para añadir Tiles.</value>
   </data>
 </root>
