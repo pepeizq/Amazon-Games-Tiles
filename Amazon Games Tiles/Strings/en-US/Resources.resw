@@ -156,9 +156,6 @@
   <data name="Tiles" xml:space="preserve">
     <value>Tiles</value>
   </data>
-  <data name="MoreThings_VoteApp" xml:space="preserve">
-    <value>Vote the App</value>
-  </data>
   <data name="ConfigFileMessage.Text" xml:space="preserve">
     <value>Select the file GameProductInfo.sqlite in C:\Users\[Your User]\AppData\Local\Amazon Games\Data\Games\Sql</value>
   </data>
@@ -287,5 +284,11 @@
   </data>
   <data name="MoreThings_Video" xml:space="preserve">
     <value>Video on YouTube</value>
+  </data>
+  <data name="MoreThings_RateApp" xml:space="preserve">
+    <value>Rate the App</value>
+  </data>
+  <data name="MoreThings_RateAppThanks" xml:space="preserve">
+    <value>Thanks for rating the app</value>
   </data>
 </root>
