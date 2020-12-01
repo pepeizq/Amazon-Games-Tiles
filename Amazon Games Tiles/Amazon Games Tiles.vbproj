@@ -144,8 +144,12 @@
     <Compile Include="Modulos\Cache.vb" />
     <Compile Include="Modulos\Configuracion.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
+    <Compile Include="Modulos\Interfaz\AñadirTile.vb" />
+    <Compile Include="Modulos\Interfaz\Busqueda.vb" />
+    <Compile Include="Modulos\Interfaz\EfectosHover.vb" />
+    <Compile Include="Modulos\Interfaz\NavigationViewItems.vb" />
+    <Compile Include="Modulos\Interfaz\Pestañas.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
-    <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Steam.vb" />
     <Compile Include="Modulos\Tiles\Añadir.vb" />
@@ -162,9 +166,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\amazon_logo.png" />
+    <Content Include="Assets\Config\config.png" />
     <Content Include="Assets\Iconos\1.png" />
     <Content Include="Assets\Iconos\2.png" />
     <Content Include="Assets\Iconos\3.png" />
+    <Content Include="Assets\Iconos\4.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-100.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-125.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-150.png" />
@@ -190,6 +196,11 @@
     <Content Include="Assets\Logos\Square150x150Logo.scale-150.png" />
     <Content Include="Assets\Logos\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
     <Content Include="Assets\Logos\Square44x44Logo.altform-unplated_targetsize-16.png" />
     <Content Include="Assets\Logos\Square44x44Logo.altform-unplated_targetsize-24.png" />
     <Content Include="Assets\Logos\Square44x44Logo.altform-unplated_targetsize-256.png" />

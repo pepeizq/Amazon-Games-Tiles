@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Helpers
-Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports SQLite.Net
 Imports SQLite.Net.Platform.WinRT
@@ -7,15 +6,13 @@ Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.UI
-Imports Windows.UI.Core
-Imports Windows.UI.Xaml.Media.Animation
 
 Module Amazon
 
-    Public anchoColumna As Integer = 200
-    Dim clave As String = "AmazonFichero"
+    Public anchoColumna As Integer = 180
+    Dim clave As String = "AmazonCarpeta"
 
-    Public Async Sub Generar(boolBuscarCarpeta As Boolean)
+    Public Async Sub Generar(buscarCarpeta As Boolean)
 
         Dim helper As New LocalObjectStorageHelper
 
@@ -24,24 +21,11 @@ Module Amazon
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim botonBuscarFichero As Button = pagina.FindName("botonBuscarFicheroAmazon")
-        botonBuscarFichero.IsEnabled = False
-
-        Dim spProgreso As StackPanel = pagina.FindName("spProgreso")
-        spProgreso.Visibility = Visibility.Visible
-
-        Dim pbProgreso As ProgressBar = pagina.FindName("pbProgreso")
-        pbProgreso.Value = 0
-
-        Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
-        tbProgreso.Text = String.Empty
-
+        Configuracion.Estado(False)
         Cache.Estado(False)
 
-        Dim gridSeleccionarJuego As Grid = pagina.FindName("gridSeleccionarJuego")
-        gridSeleccionarJuego.Visibility = Visibility.Collapsed
-
-        Dim gv As GridView = pagina.FindName("gvTiles")
+        Dim gv As AdaptiveGridView = pagina.FindName("gvTiles")
+        gv.DesiredWidth = anchoColumna
         gv.Items.Clear()
 
         Dim listaJuegos As New List(Of Tile)
@@ -50,107 +34,118 @@ Module Amazon
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
         End If
 
-        Dim tbLocalizacion As TextBlock = pagina.FindName("tbFicheroLocalizacionAmazon")
-
-        If Not tbLocalizacion.Text = Nothing Then
-            tbLocalizacion.Text = String.Empty
-        End If
-
-        Dim numCarpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
-
-        If boolBuscarCarpeta = True Then
+        If buscarCarpeta = True Then
             Try
-                Dim picker As New FileOpenPicker
-
-                picker.FileTypeFilter.Add(".sqlite")
+                Dim picker As New FolderPicker()
+                picker.FileTypeFilter.Add("*")
                 picker.ViewMode = PickerViewMode.List
 
-                Dim fichero As StorageFile = Await picker.PickSingleFileAsync
-                StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave, fichero)
-                tbLocalizacion.Text = fichero.Path
+                Dim carpeta As StorageFolder = Await picker.PickSingleFolderAsync()
+
+                If Not carpeta Is Nothing Then
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave, carpeta)
+                End If
             Catch ex As Exception
 
             End Try
-        End If
-
-        If tbLocalizacion.Text = Nothing Then
-            tbLocalizacion.Text = recursos.GetString("Ninguna")
         Else
-            tbLocalizacion.Text = tbLocalizacion.Text.Trim
+            Dim carpeta As StorageFolder = Nothing
+
+            Try
+                carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave)
+            Catch ex As Exception
+
+            End Try
         End If
 
         '-------------------------------------------------------------
 
-        Dim ficheroMaestro As StorageFile = Nothing
+        Dim carpetaMaestra As StorageFolder = Nothing
 
         Try
-            ficheroMaestro = Await StorageApplicationPermissions.FutureAccessList.GetFileAsync(clave)
+            carpetaMaestra = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave)
         Catch ex As Exception
 
         End Try
 
-        If Not ficheroMaestro Is Nothing Then
-            Dim bdFinal As StorageFile = Nothing
+        If Not carpetaMaestra Is Nothing Then
+            Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
+            Interfaz.Pestañas.Visibilidad_Pestañas(gridProgreso, Nothing)
+
+            Dim pbProgreso As ProgressBar = pagina.FindName("pbProgreso")
+            pbProgreso.Value = 0
+
+            Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
+            tbProgreso.Text = String.Empty
+
+            Dim fichero As String = carpetaMaestra.Path + "\GameProductInfo.sqlite"
+
+            Dim bdOrigen As StorageFile = Nothing
 
             Try
-                bdFinal = Await ApplicationData.Current.LocalFolder.CreateFileAsync("basedatos.sqlite", CreationCollisionOption.ReplaceExisting)
+                bdOrigen = Await StorageFile.GetFileFromPathAsync(fichero)
             Catch ex As Exception
 
             End Try
 
-            If Not bdFinal Is Nothing Then
-                Await ficheroMaestro.CopyAndReplaceAsync(bdFinal)
+            If Not bdOrigen Is Nothing Then
+                Dim bdFinal As StorageFile = Nothing
 
-                Dim conexion As New SQLiteConnection(New SQLitePlatformWinRT, bdFinal.Path, Interop.SQLiteOpenFlags.ReadWrite)
+                Try
+                    bdFinal = Await ApplicationData.Current.LocalFolder.CreateFileAsync("basedatos.sqlite", CreationCollisionOption.ReplaceExisting)
+                Catch ex As Exception
 
-                Dim juegos As TableQuery(Of AmazonDB) = conexion.Table(Of AmazonDB)
+                End Try
 
-                Dim k As Integer = 0
-                For Each juego As AmazonDB In juegos
-                    Dim añadir As Boolean = True
-                    Dim g As Integer = 0
-                    While g < listaJuegos.Count
-                        If listaJuegos(g).ID = juego.ID Then
-                            añadir = False
+                If Not bdFinal Is Nothing Then
+                    Await bdOrigen.CopyAndReplaceAsync(bdFinal)
+
+                    Dim conexion As New SQLiteConnection(New SQLitePlatformWinRT, bdFinal.Path, Interop.SQLiteOpenFlags.ReadWrite)
+
+                    Dim juegos As TableQuery(Of AmazonDB) = conexion.Table(Of AmazonDB)
+
+                    Dim k As Integer = 0
+                    For Each juego As AmazonDB In juegos
+                        Dim añadir As Boolean = True
+                        Dim g As Integer = 0
+                        While g < listaJuegos.Count
+                            If listaJuegos(g).ID = juego.ID Then
+                                añadir = False
+                            End If
+                            g += 1
+                        End While
+
+                        If añadir = True Then
+                            Dim imagen As String = String.Empty
+
+                            Try
+                                imagen = Await Cache.DescargarImagen(juego.Imagen, juego.ID, "base")
+                            Catch ex As Exception
+
+                            End Try
+
+                            Dim tile As New Tile(juego.Titulo, juego.ID, "amazon-games://play/" + juego.ID, imagen, imagen, imagen, imagen)
+
+                            listaJuegos.Add(tile)
                         End If
-                        g += 1
-                    End While
 
-                    If añadir = True Then
-                        Dim imagen As String = String.Empty
-
-                        Try
-                            imagen = Await Cache.DescargarImagen(juego.Imagen, juego.ID, "base")
-                        Catch ex As Exception
-
-                        End Try
-
-                        Dim tile As New Tile(juego.Titulo, juego.ID, "amazon-games://play/" + juego.ID, imagen, imagen, imagen, imagen)
-
-                        listaJuegos.Add(tile)
-                    End If
-
-                    pbProgreso.Value = CInt((100 / juegos.Count) * k)
-                    tbProgreso.Text = k.ToString + "/" + juegos.Count.ToString
-                    k += 1
-                Next
+                        pbProgreso.Value = CInt((100 / juegos.Count) * k)
+                        tbProgreso.Text = k.ToString + "/" + juegos.Count.ToString
+                        k += 1
+                    Next
+                End If
             End If
         End If
 
         Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
 
-        spProgreso.Visibility = Visibility.Collapsed
-
-        Dim gridTiles As Grid = pagina.FindName("gridTiles")
-        Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
-        Dim spBuscador As StackPanel = pagina.FindName("spBuscador")
+        Dim iconoResultado As FontAwesome5.FontAwesome = pagina.FindName("iconoResultado")
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
-                gridTiles.Visibility = Visibility.Visible
-                gridAvisoNoJuegos.Visibility = Visibility.Collapsed
-                gridSeleccionarJuego.Visibility = Visibility.Visible
-                spBuscador.Visibility = Visibility.Visible
+                Dim gridJuegos As Grid = pagina.FindName("gridJuegos")
+                Interfaz.Pestañas.Visibilidad_Pestañas(gridJuegos, recursos.GetString("Games"))
+                iconoResultado.Icon = FontAwesome5.EFontAwesomeIcon.Solid_Check
 
                 listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
 
@@ -159,24 +154,18 @@ Module Amazon
                 For Each juego In listaJuegos
                     BotonEstilo(juego, gv)
                 Next
-
-                'If boolBuscarCarpeta = True Then
-                '    Toast(listaJuegos.Count.ToString + " " + recursos.GetString("GamesDetected"), Nothing)
-                'End If
             Else
-                gridTiles.Visibility = Visibility.Collapsed
-                gridAvisoNoJuegos.Visibility = Visibility.Visible
-                gridSeleccionarJuego.Visibility = Visibility.Collapsed
-                spBuscador.Visibility = Visibility.Collapsed
+                Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
+                Interfaz.Pestañas.Visibilidad_Pestañas(gridAvisoNoJuegos, Nothing)
+                iconoResultado.Icon = Nothing
             End If
         Else
-            gridTiles.Visibility = Visibility.Collapsed
-            gridAvisoNoJuegos.Visibility = Visibility.Visible
-            gridSeleccionarJuego.Visibility = Visibility.Collapsed
-            spBuscador.Visibility = Visibility.Collapsed
+            Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
+            Interfaz.Pestañas.Visibilidad_Pestañas(gridAvisoNoJuegos, Nothing)
+            iconoResultado.Icon = Nothing
         End If
 
-        botonBuscarFichero.IsEnabled = True
+        Configuracion.Estado(True)
         Cache.Estado(True)
 
     End Sub
@@ -220,8 +209,8 @@ Module Amazon
         ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
 
         AddHandler boton.Click, AddressOf BotonTile_Click
-        AddHandler boton.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler boton.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler boton.PointerEntered, AddressOf Interfaz.Entra_Boton_Imagen
+        AddHandler boton.PointerExited, AddressOf Interfaz.Sale_Boton_Imagen
 
         gv.Items.Add(panel)
 
@@ -230,15 +219,16 @@ Module Amazon
     Private Async Sub BotonTile_Click(sender As Object, e As RoutedEventArgs)
 
         Trial.Detectar()
+        Interfaz.AñadirTile.ResetearValores()
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim spBuscador As StackPanel = pagina.FindName("spBuscador")
-        spBuscador.Visibility = Visibility.Collapsed
-
         Dim botonJuego As Button = e.OriginalSource
         Dim juego As Tile = botonJuego.Tag
+
+        Dim gridAñadirTile As Grid = pagina.FindName("gridAñadirTile")
+        Interfaz.Pestañas.Visibilidad_Pestañas(gridAñadirTile, juego.Titulo)
 
         '---------------------------------------------
 
@@ -283,32 +273,6 @@ Module Amazon
         Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
         tbJuegoSeleccionado.Text = juego.Titulo
 
-        Dim gridSeleccionarJuego As Grid = pagina.FindName("gridSeleccionarJuego")
-        gridSeleccionarJuego.Visibility = Visibility.Collapsed
-
-        Dim gvTiles As GridView = pagina.FindName("gvTiles")
-
-        If gvTiles.ActualWidth > anchoColumna Then
-            ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles") = gvTiles.ActualWidth
-        End If
-
-        gvTiles.Width = anchoColumna
-        gvTiles.Padding = New Thickness(0, 0, 15, 0)
-
-        Dim gridAñadir As Grid = pagina.FindName("gridAñadirTile")
-        gridAñadir.Visibility = Visibility.Visible
-
-        ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("tile", botonJuego)
-
-        Dim animacion As ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("tile")
-
-        If Not animacion Is Nothing Then
-            animacion.TryStart(gridAñadir)
-        End If
-
-        Dim tbTitulo As TextBlock = pagina.FindName("tbTitulo")
-        tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + juego.Titulo
-
         '---------------------------------------------
 
         Dim imagenPequeña As ImageEx = pagina.FindName("imagenTilePequeña")
@@ -345,24 +309,6 @@ Module Amazon
             imagenGrande.Source = juego.ImagenGrande
             imagenGrande.Tag = juego.ImagenGrande
         End If
-
-    End Sub
-
-    Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
-
-        Dim boton As Button = sender
-        boton.Saturation(0).Scale(1.05, 1.05, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
-
-    End Sub
-
-    Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
-
-        Dim boton As Button = sender
-        boton.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
     End Sub
 
