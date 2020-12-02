@@ -13,23 +13,17 @@ Module Configuracion
         AddHandler botonAbrirConfig.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Boton_IconoTexto
         AddHandler botonAbrirConfig.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Boton_IconoTexto
 
-        Dim botonConfigOpcion As Button = pagina.FindName("botonConfigOpcion")
-
-        AddHandler botonConfigOpcion.Click, AddressOf AbrirOpcionClick
-        AddHandler botonConfigOpcion.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Boton_IconoTexto
-        AddHandler botonConfigOpcion.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Boton_IconoTexto
-
         Dim botonConfigImagen As Button = pagina.FindName("botonConfigImagen")
 
         AddHandler botonConfigImagen.Click, AddressOf AbrirImagenClick
         AddHandler botonConfigImagen.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Boton_IconoTexto
         AddHandler botonConfigImagen.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Boton_IconoTexto
 
-        Dim botonBuscarCarpetaAmazon As Button = pagina.FindName("botonBuscarCarpetaAmazon")
+        Dim botonBuscarFicheroAmazon As Button = pagina.FindName("botonBuscarFicheroAmazon")
 
-        AddHandler botonBuscarCarpetaAmazon.Click, AddressOf BuscarAmazonClick
-        AddHandler botonBuscarCarpetaAmazon.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Boton_IconoTexto
-        AddHandler botonBuscarCarpetaAmazon.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Boton_IconoTexto
+        AddHandler botonBuscarFicheroAmazon.Click, AddressOf BuscarAmazonClick
+        AddHandler botonBuscarFicheroAmazon.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Boton_IconoTexto
+        AddHandler botonBuscarFicheroAmazon.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Boton_IconoTexto
 
     End Sub
 
@@ -42,12 +36,6 @@ Module Configuracion
 
         Dim recursos As New Resources.ResourceLoader()
         Interfaz.Pestañas.Visibilidad_Pestañas(gridConfig, recursos.GetString("Config"))
-
-    End Sub
-
-    Private Async Sub AbrirOpcionClick(sender As Object, e As RoutedEventArgs)
-
-        Await Launcher.LaunchUriAsync(New Uri(“ms-settings:privacy-broadfilesystemaccess”))
 
     End Sub
 
@@ -83,8 +71,8 @@ Module Configuracion
         Dim botonAbrirConfig As Button = pagina.FindName("botonAbrirConfig")
         botonAbrirConfig.IsEnabled = estado
 
-        Dim botonBuscarCarpetaAmazon As Button = pagina.FindName("botonBuscarCarpetaAmazon")
-        botonBuscarCarpetaAmazon.IsEnabled = estado
+        Dim botonBuscarFicheroAmazon As Button = pagina.FindName("botonBuscarFicheroAmazon")
+        botonBuscarFicheroAmazon.IsEnabled = estado
 
     End Sub
 

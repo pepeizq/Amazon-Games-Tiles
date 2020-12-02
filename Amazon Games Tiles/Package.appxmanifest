@@ -4,18 +4,17 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap mp rescap">
+  IgnorableNamespaces="uap mp">
 
   <Identity
     Name="5078pepeizq.AmazonGamesTiles"
     Publisher="CN=C91088FC-231C-4E13-86D1-5F9658173DA7"
-    Version="1.2.0.0" />
+    Version="1.2.2.0" />
 
   <mp:PhoneIdentity PhoneProductId="9f57f69d-ca87-42c0-8f35-3a03f76ea9a8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Amazon Games Tiles</DisplayName>
+    <DisplayName>Tiles for Amazon Games</DisplayName>
     <PublisherDisplayName>pepeizq&apos;s apps</PublisherDisplayName>
     <Logo>Assets\Logos\StoreLogo.png</Logo>
   </Properties>
@@ -33,12 +32,12 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="Amazon_Games_Tiles.App">
       <uap:VisualElements
-        DisplayName="Amazon Games Tiles"
+        DisplayName="Tiles for Amazon Games"
         Square150x150Logo="Assets\Logos\Square150x150Logo.png"
         Square44x44Logo="Assets\Logos\Square44x44Logo.png"
         Description="https://pepeizqapps.com/"
         BackgroundColor="#787878">
-        <uap:DefaultTile Wide310x150Logo="Assets\Logos\Wide310x150Logo.png" ShortName="Amazon Games Tiles" Square71x71Logo="Assets\Logos\SmallTile.png" Square310x310Logo="Assets\Logos\LargeTile.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Logos\Wide310x150Logo.png" ShortName="Tiles for Amazon Games" Square71x71Logo="Assets\Logos\SmallTile.png" Square310x310Logo="Assets\Logos\LargeTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="wide310x150Logo"/>
             <uap:ShowOn Tile="square310x310Logo"/>
@@ -53,6 +52,5 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
-    <rescap:Capability Name="broadFileSystemAccess" />
   </Capabilities>
 </Package>
