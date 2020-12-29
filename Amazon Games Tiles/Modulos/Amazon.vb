@@ -6,6 +6,7 @@ Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.UI
+Imports Windows.UI.Xaml.Media.Animation
 
 Module Amazon
 
@@ -66,7 +67,7 @@ Module Amazon
 
         If Not ficheroMaestro Is Nothing Then
             Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
-            Interfaz.Pestañas.Visibilidad_Pestañas(gridProgreso, Nothing)
+            Interfaz.Pestañas.Visibilidad(gridProgreso, Nothing, Nothing)
 
             Dim pbProgreso As ProgressBar = pagina.FindName("pbProgreso")
             pbProgreso.Value = 0
@@ -132,7 +133,7 @@ Module Amazon
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
                 Dim gridJuegos As Grid = pagina.FindName("gridJuegos")
-                Interfaz.Pestañas.Visibilidad_Pestañas(gridJuegos, recursos.GetString("Games"))
+                Interfaz.Pestañas.Visibilidad(gridJuegos, recursos.GetString("Games"), Nothing)
                 iconoResultado.Icon = FontAwesome5.EFontAwesomeIcon.Solid_Check
 
                 listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
@@ -144,12 +145,12 @@ Module Amazon
                 Next
             Else
                 Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
-                Interfaz.Pestañas.Visibilidad_Pestañas(gridAvisoNoJuegos, Nothing)
+                Interfaz.Pestañas.Visibilidad(gridAvisoNoJuegos, Nothing, Nothing)
                 iconoResultado.Icon = Nothing
             End If
         Else
             Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
-            Interfaz.Pestañas.Visibilidad_Pestañas(gridAvisoNoJuegos, Nothing)
+            Interfaz.Pestañas.Visibilidad(gridAvisoNoJuegos, Nothing, Nothing)
             iconoResultado.Icon = Nothing
         End If
 
@@ -216,8 +217,27 @@ Module Amazon
         Dim botonJuego As Button = e.OriginalSource
         Dim juego As Tile = botonJuego.Tag
 
+        Dim botonAñadirTile As Button = pagina.FindName("botonAñadirTile")
+        botonAñadirTile.Tag = juego
+
+        Dim imagenJuegoSeleccionado As ImageEx = pagina.FindName("imagenJuegoSeleccionado")
+        imagenJuegoSeleccionado.Source = New BitmapImage(New Uri(juego.ImagenAncha))
+
+        Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
+        tbJuegoSeleccionado.Text = juego.Titulo
+
         Dim gridAñadirTile As Grid = pagina.FindName("gridAñadirTile")
-        Interfaz.Pestañas.Visibilidad_Pestañas(gridAñadirTile, juego.Titulo)
+        Interfaz.Pestañas.Visibilidad(gridAñadirTile, juego.Titulo, Nothing)
+
+        '---------------------------------------------
+
+        ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("animacionJuego", botonJuego)
+        Dim animacion As ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("animacionJuego")
+
+        If Not animacion Is Nothing Then
+            animacion.Configuration = New BasicConnectedAnimationConfiguration
+            animacion.TryStart(gridAñadirTile)
+        End If
 
         '---------------------------------------------
 
@@ -250,17 +270,6 @@ Module Amazon
                 End If
             End If
         End If
-
-        '---------------------------------------------
-
-        Dim botonAñadirTile As Button = pagina.FindName("botonAñadirTile")
-        botonAñadirTile.Tag = juego
-
-        Dim imagenJuegoSeleccionado As ImageEx = pagina.FindName("imagenJuegoSeleccionado")
-        imagenJuegoSeleccionado.Source = New BitmapImage(New Uri(juego.ImagenAncha))
-
-        Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
-        tbJuegoSeleccionado.Text = juego.Titulo
 
         '---------------------------------------------
 
