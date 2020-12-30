@@ -12,6 +12,7 @@ Module Amazon
 
     Public anchoColumna As Integer = 180
     Dim clave As String = "AmazonFichero"
+    Dim dominioImagenes As String = "https://cdn.cloudflare.steamstatic.com"
 
     Public Async Sub Generar(buscarFichero As Boolean)
 
@@ -241,6 +242,16 @@ Module Amazon
 
         '---------------------------------------------
 
+        Dim tbImagenTituloTextoTileAncha As TextBox = pagina.FindName("tbImagenTituloTextoTileAncha")
+        tbImagenTituloTextoTileAncha.Text = juego.Titulo
+        tbImagenTituloTextoTileAncha.Tag = juego.Titulo
+
+        Dim tbImagenTituloTextoTileGrande As TextBox = pagina.FindName("tbImagenTituloTextoTileGrande")
+        tbImagenTituloTextoTileGrande.Text = juego.Titulo
+        tbImagenTituloTextoTileGrande.Tag = juego.Titulo
+
+        '---------------------------------------------
+
         Dim htmlSteam As String = Await Decompiladores.HttpClient(New Uri("https://store.steampowered.com/search/?term=" + juego.Titulo.Replace(" ", "+")))
 
         If Not htmlSteam = Nothing Then
@@ -252,21 +263,31 @@ Module Amazon
             If Not int5 = -1 Then
                 temp5 = htmlSteam.Remove(0, int5)
 
-                int5 = temp5.IndexOf("<span class=" + ChrW(34) + "title" + ChrW(34) + ">" + juego.Titulo + "</span>")
+                int5 = temp5.IndexOf("<span class=" + ChrW(34) + "title" + ChrW(34) + ">")
 
                 If Not int5 = -1 Then
-                    temp5 = temp5.Remove(int5, temp5.Length - int5)
+                    Dim temp7 As String = temp5.Remove(0, int5)
+                    temp7 = temp7.Replace("<span class=" + ChrW(34) + "title" + ChrW(34) + ">", Nothing)
 
-                    int5 = temp5.LastIndexOf("data-ds-appid=")
-                    temp5 = temp5.Remove(0, int5 + 15)
+                    Dim int7 = temp7.IndexOf("</span>")
+                    temp7 = temp7.Remove(int7, temp7.Length - int7)
 
-                    int6 = temp5.IndexOf(ChrW(34))
-                    temp6 = temp5.Remove(int6, temp5.Length - int6)
+                    If Limpieza.Limpiar(temp7) = Limpieza.Limpiar(juego.Titulo) Then
+                        temp5 = temp5.Remove(int5, temp5.Length - int5)
 
-                    Dim idSteam As String = temp6.Trim
+                        int5 = temp5.LastIndexOf("data-ds-appid=")
+                        temp5 = temp5.Remove(0, int5 + 15)
 
-                    juego.ImagenPequeña = Await Steam.SacarIcono(idSteam)
-                    juego.ImagenAncha = "https://steamcdn-a.akamaihd.net/steam/apps/" + idSteam + "/header.jpg"
+                        int6 = temp5.IndexOf(ChrW(34))
+                        temp6 = temp5.Remove(int6, temp5.Length - int6)
+
+                        Dim idSteam As String = temp6.Trim
+
+                        juego.ImagenPequeña = Await Steam.SacarIcono(idSteam)
+                        juego.ImagenMediana = dominioImagenes + "/steam/apps/" + idSteam + "/logo.png"
+                        juego.ImagenAncha = dominioImagenes + "/steam/apps/" + idSteam + "/header.jpg"
+                        imagenJuegoSeleccionado.Source = juego.ImagenAncha
+                    End If
                 End If
             End If
         End If

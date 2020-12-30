@@ -150,6 +150,7 @@
     <Compile Include="Modulos\Interfaz\Juegos.vb" />
     <Compile Include="Modulos\Interfaz\NavigationViewItems.vb" />
     <Compile Include="Modulos\Interfaz\Pestañas.vb" />
+    <Compile Include="Modulos\Limpieza.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
     <Compile Include="Modulos\MasTiles.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
@@ -173,6 +174,8 @@
     <Content Include="Assets\Iconos\2.png" />
     <Content Include="Assets\Iconos\3.png" />
     <Content Include="Assets\Iconos\4.png" />
+    <Content Include="Assets\Iconos\5.png" />
+    <Content Include="Assets\Iconos\6.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-100.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-125.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-150.png" />
