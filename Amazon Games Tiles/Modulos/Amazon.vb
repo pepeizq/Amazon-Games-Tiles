@@ -88,11 +88,11 @@ Module Amazon
                 Await ficheroMaestro.CopyAndReplaceAsync(bdFinal)
 
                 Dim conexion As New SQLiteConnection(New SQLitePlatformWinRT, bdFinal.Path, Interop.SQLiteOpenFlags.ReadWrite)
-
-                Dim juegos As TableQuery(Of AmazonDB) = conexion.Table(Of AmazonDB)
+                Dim juegos As TableQuery(Of AmazonSQL) = conexion.Table(Of AmazonSQL)
+                Dim listaBBDD As List(Of AmazonBBDDJuego) = AmazonBBDD.Listado
 
                 Dim k As Integer = 0
-                For Each juego As AmazonDB In juegos
+                For Each juego As AmazonSQL In juegos
                     Dim añadir As Boolean = True
                     Dim g As Integer = 0
                     While g < listaJuegos.Count
@@ -103,15 +103,41 @@ Module Amazon
                     End While
 
                     If añadir = True Then
-                        Dim imagen As String = String.Empty
+                        Dim imagenPequeña As String = Await Cache.DescargarImagen(Nothing, juego.ID, "pequeña")
+                        Dim imagenMediana As String = Await Cache.DescargarImagen(Nothing, juego.ID, "mediana")
+                        Dim imagenAncha As String = Await Cache.DescargarImagen(Nothing, juego.ID, "ancha")
+
+                        For Each juegoBBDD In listaBBDD
+                            If juego.ID = juegoBBDD.IDAmazon Then
+                                If Not juegoBBDD.IDSteam = Nothing Then
+                                    If imagenMediana = String.Empty Then
+                                        Try
+                                            imagenMediana = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/logo.png", juegoBBDD.IDAmazon, "mediana")
+                                        Catch ex As Exception
+
+                                        End Try
+                                    End If
+
+                                    If imagenAncha = String.Empty Then
+                                        Try
+                                            imagenAncha = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/header.jpg", juegoBBDD.IDAmazon, "ancha")
+                                        Catch ex As Exception
+
+                                        End Try
+                                    End If
+                                End If
+                            End If
+                        Next
+
+                        Dim imagenGrande As String = String.Empty
 
                         Try
-                            imagen = Await Cache.DescargarImagen(juego.Imagen, juego.ID, "base")
+                            imagenGrande = Await Cache.DescargarImagen(juego.Imagen, juego.ID, "base")
                         Catch ex As Exception
 
                         End Try
 
-                        Dim tile As New Tile(juego.Titulo, juego.ID, "amazon-games://play/" + juego.ID, imagen, imagen, imagen, imagen)
+                        Dim tile As New Tile(juego.Titulo, juego.ID, "amazon-games://play/" + juego.ID, imagenPequeña, imagenMediana, imagenAncha, imagenGrande)
 
                         listaJuegos.Add(tile)
                     End If
@@ -129,6 +155,7 @@ Module Amazon
 
         End Try
 
+        Dim textoClipboard As String = String.Empty
         Dim iconoResultado As FontAwesome5.FontAwesome = pagina.FindName("iconoResultado")
 
         If Not listaJuegos Is Nothing Then
@@ -142,6 +169,7 @@ Module Amazon
                 gv.Items.Clear()
 
                 For Each juego In listaJuegos
+                    textoClipboard = textoClipboard + juego.Titulo + ChrW(34) + ", " + ChrW(34) + juego.ID + Environment.NewLine
                     BotonEstilo(juego, gv)
                 Next
             Else
@@ -154,6 +182,10 @@ Module Amazon
             Interfaz.Pestañas.Visibilidad(gridAvisoNoJuegos, Nothing, Nothing)
             iconoResultado.Icon = Nothing
         End If
+
+        'Dim datos As New DataTransfer.DataPackage
+        'datos.SetText(textoClipboard)
+        'DataTransfer.Clipboard.SetContent(datos)
 
         Configuracion.Estado(True)
         Cache.Estado(True)
@@ -222,7 +254,7 @@ Module Amazon
         botonAñadirTile.Tag = juego
 
         Dim imagenJuegoSeleccionado As ImageEx = pagina.FindName("imagenJuegoSeleccionado")
-        imagenJuegoSeleccionado.Source = New BitmapImage(New Uri(juego.ImagenAncha))
+        imagenJuegoSeleccionado.Source = juego.ImagenAncha
 
         Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
         tbJuegoSeleccionado.Text = juego.Titulo
@@ -252,41 +284,43 @@ Module Amazon
 
         '---------------------------------------------
 
-        Dim htmlSteam As String = Await Decompiladores.HttpClient(New Uri("https://store.steampowered.com/search/?term=" + juego.Titulo.Replace(" ", "+")))
+        If juego.ImagenAncha = Nothing Then
+            Dim htmlSteam As String = Await Decompiladores.HttpClient(New Uri("https://store.steampowered.com/search/?term=" + juego.Titulo.Replace(" ", "+")))
 
-        If Not htmlSteam = Nothing Then
-            Dim temp5, temp6 As String
-            Dim int5, int6 As Integer
+            If Not htmlSteam = Nothing Then
+                Dim temp5, temp6 As String
+                Dim int5, int6 As Integer
 
-            int5 = htmlSteam.IndexOf("<!-- List Items -->")
-
-            If Not int5 = -1 Then
-                temp5 = htmlSteam.Remove(0, int5)
-
-                int5 = temp5.IndexOf("<span class=" + ChrW(34) + "title" + ChrW(34) + ">")
+                int5 = htmlSteam.IndexOf("<!-- List Items -->")
 
                 If Not int5 = -1 Then
-                    Dim temp7 As String = temp5.Remove(0, int5)
-                    temp7 = temp7.Replace("<span class=" + ChrW(34) + "title" + ChrW(34) + ">", Nothing)
+                    temp5 = htmlSteam.Remove(0, int5)
 
-                    Dim int7 = temp7.IndexOf("</span>")
-                    temp7 = temp7.Remove(int7, temp7.Length - int7)
+                    int5 = temp5.IndexOf("<span class=" + ChrW(34) + "title" + ChrW(34) + ">")
 
-                    If Limpieza.Limpiar(temp7) = Limpieza.Limpiar(juego.Titulo) Then
-                        temp5 = temp5.Remove(int5, temp5.Length - int5)
+                    If Not int5 = -1 Then
+                        Dim temp7 As String = temp5.Remove(0, int5)
+                        temp7 = temp7.Replace("<span class=" + ChrW(34) + "title" + ChrW(34) + ">", Nothing)
 
-                        int5 = temp5.LastIndexOf("data-ds-appid=")
-                        temp5 = temp5.Remove(0, int5 + 15)
+                        Dim int7 = temp7.IndexOf("</span>")
+                        temp7 = temp7.Remove(int7, temp7.Length - int7)
 
-                        int6 = temp5.IndexOf(ChrW(34))
-                        temp6 = temp5.Remove(int6, temp5.Length - int6)
+                        If Limpieza.Limpiar(temp7) = Limpieza.Limpiar(juego.Titulo) Then
+                            temp5 = temp5.Remove(int5, temp5.Length - int5)
 
-                        Dim idSteam As String = temp6.Trim
+                            int5 = temp5.LastIndexOf("data-ds-appid=")
+                            temp5 = temp5.Remove(0, int5 + 15)
 
-                        juego.ImagenPequeña = Await Steam.SacarIcono(idSteam)
-                        juego.ImagenMediana = dominioImagenes + "/steam/apps/" + idSteam + "/logo.png"
-                        juego.ImagenAncha = dominioImagenes + "/steam/apps/" + idSteam + "/header.jpg"
-                        imagenJuegoSeleccionado.Source = juego.ImagenAncha
+                            int6 = temp5.IndexOf(ChrW(34))
+                            temp6 = temp5.Remove(int6, temp5.Length - int6)
+
+                            Dim idSteam As String = temp6.Trim
+
+                            juego.ImagenPequeña = Await Steam.SacarIcono(idSteam)
+                            juego.ImagenMediana = dominioImagenes + "/steam/apps/" + idSteam + "/logo.png"
+                            juego.ImagenAncha = dominioImagenes + "/steam/apps/" + idSteam + "/header.jpg"
+                            imagenJuegoSeleccionado.Source = juego.ImagenAncha
+                        End If
                     End If
                 End If
             End If

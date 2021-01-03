@@ -1,7 +1,7 @@
 ﻿Imports SQLite.Net.Attributes
 
 <Table("DbSet")>
-Public Class AmazonDB
+Public Class AmazonSQL
 
     <Column("ProductTitle")>
     Public Property Titulo As String
