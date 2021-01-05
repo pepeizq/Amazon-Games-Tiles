@@ -3,6 +3,8 @@
     Public Function Listado()
         Dim lista As New List(Of AmazonBBDDJuego) From {
            New AmazonBBDDJuego("A Knight's Quest", "782d4c40-a964-436b-9d4c-a86d5f1b5787", Nothing),
+           New AmazonBBDDJuego("Along the Edge", "be2368f5-06d1-4f64-b9f2-e2f896e14bf2", "504390"),
+           New AmazonBBDDJuego("Alt Frequencies", "372f336e-2387-40db-8ff1-4d2fd218aeb6", "1035050"),
            New AmazonBBDDJuego("Art of Fighting 2", "a9670805-c3fc-4c06-a949-afc0b410756c", Nothing),
            New AmazonBBDDJuego("Aurion: Legacy of the Kori-Odan", "e717af74-a0df-4f4a-a415-887af44c3bb4", "368080"),
            New AmazonBBDDJuego("Autonauts", "d05de3bb-6234-423b-a96d-2cd48d78bd31", "979120"),
@@ -10,7 +12,8 @@
            New AmazonBBDDJuego("Blazing Chrome", "75790de1-8b94-447d-8c1a-28393eb47215", "609110"),
            New AmazonBBDDJuego("Blazing Star", "30af9c0e-6dfa-457a-a8af-eab5f243ea80", Nothing),
            New AmazonBBDDJuego("Bridge Constructor", "163db846-013b-41cd-bfae-c6033d67f2d9", "250460"),
-           New AmazonBBDDJuego("Bridge Constructor: Medieval", "ee62e5c5-bb8a-4e92-be8b-8ae9bb3ec0ee", "319850"),
+           New AmazonBBDDJuego("Bridge Constructor Medieval", "ee62e5c5-bb8a-4e92-be8b-8ae9bb3ec0ee", "319850"),
+           New AmazonBBDDJuego("Bridge Constructor Playground", "90dd5458-e86e-4324-b129-541d4649587b", "279990"),
            New AmazonBBDDJuego("Chroma Squad", "2ee6b231-e74f-4d55-b04b-3acc8816d6b7", "251130"),
            New AmazonBBDDJuego("Close to the Sun", "01c9088e-3278-4634-89d6-2a5074b64296", "968870"),
            New AmazonBBDDJuego("Darkside Detective", "9242e234-46a5-4b48-b67c-3795b4c30067", "368390"),
@@ -75,8 +78,10 @@
            New AmazonBBDDJuego("Truberbrook", "ab770290-3067-45d0-9b10-5aa0d3475a68", "757300"),
            New AmazonBBDDJuego("Turmoil", "9f710b74-9960-4411-bdfc-3cd846ca812c", "361280"),
            New AmazonBBDDJuego("Victor Vran Overkill Edition", "da7d2f0c-fd75-4b14-81dc-346d109220e7", "345180"),
+           New AmazonBBDDJuego("Void Bastards", "c9d1ea59-a0d8-4244-9289-69ab221e4db5", "857980"),
            New AmazonBBDDJuego("Vostok", "6c7be799-12fb-4f2d-8f6b-844483e42af8", "656460"),
            New AmazonBBDDJuego("Warsaw", "b5750a8c-652f-4a83-8bfc-82c5eb16fbf5", "1026420"),
+           New AmazonBBDDJuego("When Ski Lifts Go Wrong", "2ad346bf-d6b0-4f34-b462-7e1389727805", "638000"),
            New AmazonBBDDJuego("Wizard of Legend", "19ae680d-5c1e-42f6-a276-5a556b40e812", "445980"),
            New AmazonBBDDJuego("Yooka-Laylee", "96427040-1a7d-4884-a0dd-ed08bdaae57e", "360830"),
            New AmazonBBDDJuego("Yooka-Laylee and the Impossible Lair", "477ebfe3-f3a0-470b-9112-e8b9cfbf2510", "846870")
