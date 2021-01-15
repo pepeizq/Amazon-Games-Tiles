@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Toolkit.Uwp.Helpers
+﻿Imports Amazon_Games_Tiles.Configuracion
+Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports SQLite.Net
 Imports SQLite.Net.Platform.WinRT
@@ -23,8 +24,9 @@ Module Amazon
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Configuracion.Estado(False)
+        General.Estado(False)
         Cache.Estado(False)
+        LimpiezaArchivos.Estado(False)
 
         Dim gv As AdaptiveGridView = pagina.FindName("gvTiles")
         gv.DesiredWidth = anchoColumna
@@ -187,8 +189,9 @@ Module Amazon
         'datos.SetText(textoClipboard)
         'DataTransfer.Clipboard.SetContent(datos)
 
-        Configuracion.Estado(True)
+        General.Estado(True)
         Cache.Estado(True)
+        LimpiezaArchivos.Estado(True)
 
     End Sub
 
