@@ -16,6 +16,7 @@
            New AmazonBBDDJuego("Bridge Constructor Playground", "90dd5458-e86e-4324-b129-541d4649587b", "279990"),
            New AmazonBBDDJuego("Chroma Squad", "2ee6b231-e74f-4d55-b04b-3acc8816d6b7", "251130"),
            New AmazonBBDDJuego("Close to the Sun", "01c9088e-3278-4634-89d6-2a5074b64296", "968870"),
+           New AmazonBBDDJuego("Cyber Hook", "16fad9ee-75fc-4342-9eb2-e6f526fdddc9", "1130410"),
            New AmazonBBDDJuego("Darkside Detective", "9242e234-46a5-4b48-b67c-3795b4c30067", "368390"),
            New AmazonBBDDJuego("Day of the Tentacle", "d96d188b-283a-44e1-8402-1fbf3f1f2d72", "388210"),
            New AmazonBBDDJuego("Dead Age", "0f7fa0ea-639f-4ffa-a79e-9551ab193203", "363930"),
