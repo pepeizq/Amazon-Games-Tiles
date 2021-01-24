@@ -3,6 +3,7 @@
     Public Function Listado()
         Dim lista As New List(Of AmazonBBDDJuego) From {
            New AmazonBBDDJuego("A Knight's Quest", "782d4c40-a964-436b-9d4c-a86d5f1b5787", Nothing),
+           New AmazonBBDDJuego("Algo Bot", "e10a6883-3afc-4e14-ba19-6fd0e208677e", "286300"),
            New AmazonBBDDJuego("Along the Edge", "be2368f5-06d1-4f64-b9f2-e2f896e14bf2", "504390"),
            New AmazonBBDDJuego("Alt Frequencies", "372f336e-2387-40db-8ff1-4d2fd218aeb6", "1035050"),
            New AmazonBBDDJuego("Art of Fighting 2", "a9670805-c3fc-4c06-a949-afc0b410756c", Nothing),
