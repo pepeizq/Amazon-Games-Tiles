@@ -157,7 +157,7 @@ Module Amazon
 
         End Try
 
-        'Dim textoClipboard As String = String.Empty
+        Dim textoClipboard As String = String.Empty
         Dim iconoResultado As FontAwesome5.FontAwesome = pagina.FindName("iconoResultado")
 
         If Not listaJuegos Is Nothing Then
@@ -172,6 +172,7 @@ Module Amazon
 
                 For Each juego In listaJuegos
                     'textoClipboard = textoClipboard + juego.Titulo + ChrW(34) + ", " + ChrW(34) + juego.ID + Environment.NewLine
+                    'textoClipboard = textoClipboard + "[tr][td]" + juego.Titulo + "[/td][td]" + juego.ID + "[/td][/tr]"
                     BotonEstilo(juego, gv)
                 Next
             Else
@@ -185,9 +186,9 @@ Module Amazon
             iconoResultado.Icon = Nothing
         End If
 
-        'Dim datos As New DataTransfer.DataPackage
-        'datos.SetText(textoClipboard)
-        'DataTransfer.Clipboard.SetContent(datos)
+        Dim datos As New DataTransfer.DataPackage
+        datos.SetText(textoClipboard)
+        DataTransfer.Clipboard.SetContent(datos)
 
         General.Estado(True)
         Cache.Estado(True)
