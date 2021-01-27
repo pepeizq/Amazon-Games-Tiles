@@ -157,7 +157,7 @@ Module Amazon
 
         End Try
 
-        Dim textoClipboard As String = String.Empty
+        'Dim textoClipboard As String = String.Empty
         Dim iconoResultado As FontAwesome5.FontAwesome = pagina.FindName("iconoResultado")
 
         If Not listaJuegos Is Nothing Then
@@ -186,9 +186,9 @@ Module Amazon
             iconoResultado.Icon = Nothing
         End If
 
-        Dim datos As New DataTransfer.DataPackage
-        datos.SetText(textoClipboard)
-        DataTransfer.Clipboard.SetContent(datos)
+        'Dim datos As New DataTransfer.DataPackage
+        'datos.SetText(textoClipboard)
+        'DataTransfer.Clipboard.SetContent(datos)
 
         General.Estado(True)
         Cache.Estado(True)
