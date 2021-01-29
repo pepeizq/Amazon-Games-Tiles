@@ -40,6 +40,7 @@
            New AmazonBBDDJuego("KONA", "e3477a8d-b638-434b-b4d0-559d5610059d", "365160"),
            New AmazonBBDDJuego("Layers of Fear", "345b53a8-5464-427e-9e59-82280938934b", "391720"),
            New AmazonBBDDJuego("Lethis - Path of Progress", "7700e4ce-5d73-4962-bc3a-431e01a7e95c", "359230"),
+           New AmazonBBDDJuego("Little Big Workshop", "647f3b82-8e8f-426f-b23b-0dda8d68ebf4", "574720"),
            New AmazonBBDDJuego("Lost Horizon", "8bf7e683-9157-46e4-9744-2a8729841a12", "40350"),
            New AmazonBBDDJuego("Metal Slug 2", "fbcc4aaa-a6f1-469c-b34e-dc65756f7141", "366260"),
            New AmazonBBDDJuego("Metal Slug 3", "661f739f-90e4-49eb-a79d-8b50d8fef1e0", "250180"),
