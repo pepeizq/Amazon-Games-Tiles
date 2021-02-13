@@ -172,7 +172,6 @@ Module Amazon
 
                 For Each juego In listaJuegos
                     'textoClipboard = textoClipboard + juego.Titulo + ChrW(34) + ", " + ChrW(34) + juego.ID + Environment.NewLine
-                    'textoClipboard = textoClipboard + "[tr][td]" + juego.Titulo + "[/td][td]" + juego.ID + "[/td][/tr]"
                     BotonEstilo(juego, gv)
                 Next
             Else

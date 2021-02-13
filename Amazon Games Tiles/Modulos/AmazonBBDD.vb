@@ -3,6 +3,7 @@
     Public Function Listado()
         Dim lista As New List(Of AmazonBBDDJuego) From {
            New AmazonBBDDJuego("A Knight's Quest", "782d4c40-a964-436b-9d4c-a86d5f1b5787", Nothing),
+           New AmazonBBDDJuego("Adventures of Chris", "09fbe8c7-5f5b-4c23-88b7-09aeb2936c7a", "341170"),
            New AmazonBBDDJuego("Algo Bot", "e10a6883-3afc-4e14-ba19-6fd0e208677e", "286300"),
            New AmazonBBDDJuego("Along the Edge", "be2368f5-06d1-4f64-b9f2-e2f896e14bf2", "504390"),
            New AmazonBBDDJuego("Alt Frequencies", "372f336e-2387-40db-8ff1-4d2fd218aeb6", "1035050"),
@@ -65,6 +66,7 @@
            New AmazonBBDDJuego("Spinch", "43b6b407-5aba-464d-8ab8-754204ed23a8", "794240"),
            New AmazonBBDDJuego("Stealth Bastard Deluxe", "70ec0894-2707-4822-8f6d-b133eff339dd", "209190"),
            New AmazonBBDDJuego("Stick it to the Man", "ad9998ac-f86d-488e-8d63-727b2d781429", "251830"),
+           New AmazonBBDDJuego("Strata", "70f425e7-77e2-4b8c-8d3d-2a25be540fcb", "286380"),
            New AmazonBBDDJuego("Surf World Series", "935097f4-3cea-4e41-b22e-b20edb41e0dd", "462640"),
            New AmazonBBDDJuego("Swimsanity", "1caba129-321f-4cd6-b69f-9947cc673d7f", "877800"),
            New AmazonBBDDJuego("Sword Legacy Omen", "25071895-d6cb-49ce-98fe-4a2c3c92b9fc", "690140"),
