@@ -81,8 +81,9 @@
 
             <NavigationView.PaneFooter>
                 <StackPanel x:Name="spBuscador" Orientation="Horizontal" Visibility="Collapsed">
-                    <iconos:FontAwesome Icon="Solid_Search" Foreground="{StaticResource ColorPrimario}" Margin="0,0,15,0"/>
+                    <iconos:FontAwesome Icon="Solid_Search" Foreground="{StaticResource BrushPrimario}" Margin="0,0,15,0"/>
                     <TextBox x:Name="tbBuscador" MinWidth="180" Margin="0,4,10,4"/>
+                    <ProgressRing x:Name="prBuscador" Foreground="{StaticResource BrushPrimario}" Visibility="Collapsed" Margin="0,0,5,0"/>
                 </StackPanel>
             </NavigationView.PaneFooter>
 
@@ -99,7 +100,7 @@
                                 <SolidColorBrush Color="{StaticResource ColorCajaRojaFondo}" Opacity="0.8"/>
                             </Grid.Background>
 
-                            <TextBlock x:Name="tbSeleccionarJuego" TextWrapping="Wrap" Foreground="White"/>
+                            <TextBlock x:Uid="Amazon_SelectGame" TextWrapping="Wrap" Foreground="White"/>
                         </Grid>
 
                         <Button x:Name="botonSubirJuegos" Style="{ThemeResource ButtonRevealStyle}" Background="Transparent" Padding="15,12" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed">
@@ -571,54 +572,6 @@
                             <StackPanel.Background>
                                 <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
                             </StackPanel.Background>
-
-                            <TextBlock x:Uid="ConfigFolderMessage" Foreground="White" TextWrapping="Wrap"/>
-
-                            <Grid Margin="0,30,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <iconos:FontAwesome Grid.Column="0" Icon="Solid_ChevronRight" Foreground="White" FontSize="15"/>
-                                <TextBlock x:Uid="ConfigFileMessage" Grid.Column="1" Foreground="White" TextWrapping="Wrap" Margin="15,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            </Grid>
-
-                            <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
-                                <Button x:Name="botonConfigImagen" Style="{ThemeResource ButtonRevealStyle}" Background="{StaticResource ColorCuarto}" Padding="18,15" BorderThickness="0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <iconos:FontAwesome x:Name="iconoConfigImagen" Icon="Solid_AngleDoubleDown" Margin="0,0,15,0" VerticalAlignment="Center" Foreground="White"/>
-                                        <TextBlock x:Uid="ConfigShowImage" Foreground="White"/>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-
-                            <Grid x:Name="gridConfigImagen" Margin="20,30,0,0" Visibility="Collapsed">
-                                <controls:ImageEx Source="Assets/Config/config.png" HorizontalAlignment="Left" Stretch="None"/>
-                            </Grid>
-
-                            <Grid Margin="0,40,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <iconos:FontAwesome Grid.Column="0" Icon="Solid_ChevronRight" Foreground="White" FontSize="15"/>
-                                <TextBlock x:Uid="Amazon_ConfigFolderPath" Grid.Column="1" Foreground="White" TextWrapping="Wrap" Margin="15,0,0,0" VerticalAlignment="Center"/>
-                            </Grid>
-
-                            <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
-                                <Button x:Name="botonBuscarFicheroAmazon" Style="{ThemeResource ButtonRevealStyle}" Background="{StaticResource ColorCuarto}" Padding="18,15" BorderThickness="0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <iconos:FontAwesome Icon="Solid_File" Margin="0,0,15,0" VerticalAlignment="Center" Foreground="White"/>
-                                        <TextBlock x:Uid="ConfigSearchFile" Foreground="White"/>
-                                    </StackPanel>
-                                </Button>
-
-                                <iconos:FontAwesome x:Name="iconoResultado" Foreground="White" Margin="25,0,0,0" FontSize="16" VerticalAlignment="Center"/>
-                            </StackPanel>
-
-                            <Grid BorderBrush="{StaticResource ColorPrimario}" BorderThickness="0,1,0,0" Margin="0,50"/>
 
                             <TextBlock x:Uid="ConfigCache" FontSize="17" Foreground="White"/>
                             <TextBlock x:Uid="ConfigCache2" Foreground="White" TextWrapping="Wrap" Margin="0,20,0,0"/>

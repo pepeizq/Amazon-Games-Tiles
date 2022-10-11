@@ -1,14 +1,8 @@
 ﻿Imports Amazon_Games_Tiles.Configuracion
+Imports Amazon_Games_Tiles.Interfaz
 Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports SQLite.Net
-Imports SQLite.Net.Platform.WinRT
-Imports Windows.ApplicationModel.Core
-Imports Windows.Storage
-Imports Windows.Storage.AccessCache
-Imports Windows.Storage.Pickers
 Imports Windows.UI
-Imports Windows.UI.Core
 Imports Windows.UI.Xaml.Media.Animation
 
 Module Amazon
@@ -26,7 +20,6 @@ Module Amazon
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        General.Estado(False)
         Cache.Estado(False)
         LimpiezaArchivos.Estado(False)
 
@@ -44,174 +37,130 @@ Module Amazon
             listaJuegos = New List(Of Tile)
         End If
 
-        If buscarFichero = True Then
-            Try
-                Dim picker As New FileOpenPicker()
-                picker.FileTypeFilter.Add(".sqlite")
-                picker.ViewMode = PickerViewMode.List
-
-                Dim fichero As StorageFile = Await picker.PickSingleFileAsync
-
-                If Not fichero Is Nothing Then
-                    StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave, fichero)
-                End If
-            Catch ex As Exception
-
-            End Try
-        End If
-
         '-------------------------------------------------------------
 
-        Dim ficheroMaestro As StorageFile = Nothing
+        Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
+        Pestañas.Visibilidad(gridProgreso, Nothing, Nothing)
 
-        Try
-            ficheroMaestro = Await StorageApplicationPermissions.FutureAccessList.GetFileAsync(clave)
-        Catch ex As Exception
+        Dim pbProgreso As ProgressBar = pagina.FindName("pbProgreso")
+        pbProgreso.Value = 0
 
-        End Try
+        Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
+        tbProgreso.Text = String.Empty
 
-        If Not ficheroMaestro Is Nothing Then
-            Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
-            Interfaz.Pestañas.Visibilidad(gridProgreso, Nothing, Nothing)
+        Dim listaBBDD As List(Of AmazonBBDDJuego) = AmazonBBDD.Listado
+        Dim k As Integer = 0
 
-            Dim pbProgreso As ProgressBar = pagina.FindName("pbProgreso")
-            pbProgreso.Value = 0
+        For Each juegoBBDD In listaBBDD
+            Dim imagenPequeña As String = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDAmazon, "pequeña")
+            Dim imagenMediana As String = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDAmazon, "mediana")
+            Dim imagenAncha As String = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDAmazon, "ancha")
+            Dim imagenGrande As String = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDAmazon, "grande")
 
-            Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
-            tbProgreso.Text = String.Empty
+            If Not juegoBBDD.IDSteam = Nothing Then
+                If imagenMediana = String.Empty Then
+                    Try
+                        imagenMediana = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/logo.png", juegoBBDD.IDAmazon, "mediana")
+                    Catch ex As Exception
 
-            Dim bdFinal As StorageFile = Nothing
+                    End Try
+                End If
 
-            Try
-                bdFinal = Await ApplicationData.Current.LocalFolder.CreateFileAsync("basedatos.sqlite", CreationCollisionOption.ReplaceExisting)
-            Catch ex As Exception
+                If imagenAncha = String.Empty Then
+                    Try
+                        imagenAncha = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/header.jpg", juegoBBDD.IDAmazon, "ancha")
+                    Catch ex As Exception
 
-            End Try
+                    End Try
+                End If
 
-            If Not bdFinal Is Nothing Then
-                Await ficheroMaestro.CopyAndReplaceAsync(bdFinal)
+                If imagenGrande = String.Empty Then
+                    Try
+                        imagenGrande = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/library_600x900.jpg", juegoBBDD.IDAmazon, "grande")
+                    Catch ex As Exception
 
-                Dim conexion As New SQLiteConnection(New SQLitePlatformWinRT, bdFinal.Path, Interop.SQLiteOpenFlags.ReadWrite)
-                Dim juegos As TableQuery(Of AmazonSQL) = conexion.Table(Of AmazonSQL)
-                Dim listaBBDD As List(Of AmazonBBDDJuego) = AmazonBBDD.Listado
+                    End Try
+                End If
+            End If
 
-                Dim k As Integer = 0
-                For Each juego As AmazonSQL In juegos
-                    Dim añadir As Boolean = True
-                    Dim g As Integer = 0
-                    While g < listaJuegos.Count
-                        If listaJuegos(g).ID = juego.ID Then
-                            añadir = False
-                        End If
-                        g += 1
-                    End While
+            Dim tile As New Tile(juegoBBDD.Titulo, juegoBBDD.IDAmazon, juegoBBDD.IDSteam, "amazon-games://play/amzn1.adg.product." + juegoBBDD.IDAmazon, imagenPequeña, imagenMediana, imagenAncha, imagenGrande)
 
-                    If añadir = True Then
-                        Dim imagenPequeña As String = Await Cache.DescargarImagen(Nothing, juego.ID, "pequeña")
-                        Dim imagenMediana As String = Await Cache.DescargarImagen(Nothing, juego.ID, "mediana")
-                        Dim imagenAncha As String = Await Cache.DescargarImagen(Nothing, juego.ID, "ancha")
+            listaJuegos.Add(tile)
 
-                        For Each juegoBBDD In listaBBDD
-                            If juego.ID = juegoBBDD.IDAmazon Then
-                                If Not juegoBBDD.IDSteam = Nothing Then
-                                    If imagenMediana = String.Empty Then
-                                        Try
-                                            imagenMediana = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/logo.png", juegoBBDD.IDAmazon, "mediana")
-                                        Catch ex As Exception
+            pbProgreso.Value = CInt((100 / listaBBDD.Count) * k)
+            tbProgreso.Text = k.ToString + "/" + listaBBDD.Count.ToString
+            k += 1
+        Next
 
-                                        End Try
-                                    End If
+        Dim resultadosBusqueda As New List(Of Interfaz.BusquedaFichero)
 
-                                    If imagenAncha = String.Empty Then
-                                        Try
-                                            imagenAncha = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/header.jpg", juegoBBDD.IDAmazon, "ancha")
-                                        Catch ex As Exception
-
-                                        End Try
-                                    End If
-                                End If
-                            End If
-                        Next
-
-                        Dim imagenGrande As String = String.Empty
-
+        If Not listaJuegos Is Nothing Then
+            If listaJuegos.Count > 0 Then
+                For Each juego In listaJuegos
+                    If Not juego Is Nothing Then
                         Try
-                            imagenGrande = Await Cache.DescargarImagen(juego.Imagen, juego.ID, "base")
+                            If Await helper.FileExistsAsync("Juegos\juego_" + juego.IDAmazon) = False Then
+                                Await helper.SaveFileAsync(Of Tile)("Juegos\juego_" + juego.IDAmazon, juego)
+                            End If
                         Catch ex As Exception
 
                         End Try
 
-                        Dim tile As New Tile(juego.Titulo, juego.ID, "amazon-games://play/" + juego.ID, imagenPequeña, imagenMediana, imagenAncha, imagenGrande)
-
-                        listaJuegos.Add(tile)
+                        resultadosBusqueda.Add(New Interfaz.BusquedaFichero(juego.Titulo, "Juegos\juego_" + juego.IDAmazon))
                     End If
-
-                    pbProgreso.Value = CInt((100 / juegos.Count) * k)
-                    tbProgreso.Text = k.ToString + "/" + juegos.Count.ToString
-                    k += 1
                 Next
             End If
         End If
 
-        Await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                                                                      Async Sub()
-                                                                          Try
-                                                                              Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
-                                                                          Catch ex As Exception
+        Try
+            Await helper.SaveFileAsync(Of List(Of Interfaz.BusquedaFichero))("busqueda", resultadosBusqueda)
+        Catch ex As Exception
 
-                                                                          End Try
-                                                                      End Sub)
-
-        'Dim textoClipboard As String = String.Empty
-        Dim iconoResultado As FontAwesome5.FontAwesome = pagina.FindName("iconoResultado")
+        End Try
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
                 Dim gridJuegos As Grid = pagina.FindName("gridJuegos")
                 Interfaz.Pestañas.Visibilidad(gridJuegos, recursos.GetString("Games"), Nothing)
-                iconoResultado.Icon = FontAwesome5.EFontAwesomeIcon.Solid_Check
 
-                listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
+                listaJuegos.Sort(Function(x, y)
+                                     If Not x Is Nothing Then
+                                         If Not y Is Nothing Then
+                                             Return x.Titulo.CompareTo(y.Titulo)
+                                         End If
+                                     End If
+
+                                     If Not x Is Nothing Then
+                                         Return x.Titulo
+                                     End If
+
+                                     If Not y Is Nothing Then
+                                         Return y.Titulo
+                                     End If
+
+                                     Return Nothing
+                                 End Function)
 
                 gv.Items.Clear()
 
                 For Each juego In listaJuegos
-                    'textoClipboard = textoClipboard + juego.Titulo + ChrW(34) + ", " + ChrW(34) + juego.ID + Environment.NewLine
                     BotonEstilo(juego, gv)
                 Next
             Else
                 Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
                 Interfaz.Pestañas.Visibilidad(gridAvisoNoJuegos, Nothing, Nothing)
-                iconoResultado.Icon = Nothing
             End If
         Else
             Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
             Interfaz.Pestañas.Visibilidad(gridAvisoNoJuegos, Nothing, Nothing)
-            iconoResultado.Icon = Nothing
         End If
 
-        'Dim datos As New DataTransfer.DataPackage
-        'datos.SetText(textoClipboard)
-        'DataTransfer.Clipboard.SetContent(datos)
-
-        General.Estado(True)
         Cache.Estado(True)
         LimpiezaArchivos.Estado(True)
 
     End Sub
 
     Public Sub BotonEstilo(juego As Tile, gv As GridView)
-
-        Dim panel As New DropShadowPanel With {
-            .Margin = New Thickness(10, 10, 10, 10),
-            .ShadowOpacity = 0.9,
-            .BlurRadius = 10,
-            .MaxWidth = anchoColumna + 20,
-            .HorizontalAlignment = HorizontalAlignment.Center,
-            .VerticalAlignment = VerticalAlignment.Center
-        }
-
-        Dim boton As New Button
 
         Dim imagen As New ImageEx With {
             .Source = juego.ImagenGrande,
@@ -223,12 +172,20 @@ Module Amazon
             .EnableLazyLoading = True
         }
 
-        boton.Tag = juego
-        boton.Content = imagen
-        boton.Padding = New Thickness(0, 0, 0, 0)
-        boton.Background = New SolidColorBrush(Colors.Transparent)
-
-        panel.Content = boton
+        Dim boton As New Button With {
+            .Tag = juego,
+            .Content = imagen,
+            .Padding = New Thickness(0, 0, 0, 0),
+            .Background = New SolidColorBrush(Colors.Transparent),
+            .Margin = New Thickness(10, 10, 10, 10),
+            .MinHeight = 40,
+            .MinWidth = 40,
+            .MaxWidth = anchoColumna + 20,
+            .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorPrimario")),
+            .BorderThickness = New Thickness(1, 1, 1, 1),
+            .HorizontalAlignment = HorizontalAlignment.Center,
+            .VerticalAlignment = VerticalAlignment.Center
+        }
 
         Dim tbToolTip As TextBlock = New TextBlock With {
             .Text = juego.Titulo,
@@ -243,11 +200,11 @@ Module Amazon
         AddHandler boton.PointerEntered, AddressOf Interfaz.Entra_Boton_Imagen
         AddHandler boton.PointerExited, AddressOf Interfaz.Sale_Boton_Imagen
 
-        gv.Items.Add(panel)
+        gv.Items.Add(boton)
 
     End Sub
 
-    Private Async Sub BotonTile_Click(sender As Object, e As RoutedEventArgs)
+    Private Sub BotonTile_Click(sender As Object, e As RoutedEventArgs)
 
         Trial.Detectar()
         Interfaz.AñadirTile.ResetearValores()
@@ -292,50 +249,6 @@ Module Amazon
 
         '---------------------------------------------
 
-        If juego.ImagenAncha = Nothing Then
-            Dim htmlSteam As String = Await Decompiladores.HttpClient(New Uri("https://store.steampowered.com/search/?term=" + juego.Titulo.Replace(" ", "+")))
-
-            If Not htmlSteam = Nothing Then
-                Dim temp5, temp6 As String
-                Dim int5, int6 As Integer
-
-                int5 = htmlSteam.IndexOf("<!-- List Items -->")
-
-                If Not int5 = -1 Then
-                    temp5 = htmlSteam.Remove(0, int5)
-
-                    int5 = temp5.IndexOf("<span class=" + ChrW(34) + "title" + ChrW(34) + ">")
-
-                    If Not int5 = -1 Then
-                        Dim temp7 As String = temp5.Remove(0, int5)
-                        temp7 = temp7.Replace("<span class=" + ChrW(34) + "title" + ChrW(34) + ">", Nothing)
-
-                        Dim int7 = temp7.IndexOf("</span>")
-                        temp7 = temp7.Remove(int7, temp7.Length - int7)
-
-                        If Limpieza.Limpiar(temp7) = Limpieza.Limpiar(juego.Titulo) Then
-                            temp5 = temp5.Remove(int5, temp5.Length - int5)
-
-                            int5 = temp5.LastIndexOf("data-ds-appid=")
-                            temp5 = temp5.Remove(0, int5 + 15)
-
-                            int6 = temp5.IndexOf(ChrW(34))
-                            temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                            Dim idSteam As String = temp6.Trim
-
-                            juego.ImagenPequeña = Await Steam.SacarIcono(idSteam)
-                            juego.ImagenMediana = dominioImagenes + "/steam/apps/" + idSteam + "/logo.png"
-                            juego.ImagenAncha = dominioImagenes + "/steam/apps/" + idSteam + "/header.jpg"
-                            imagenJuegoSeleccionado.Source = juego.ImagenAncha
-                        End If
-                    End If
-                End If
-            End If
-        End If
-
-        '---------------------------------------------
-
         Dim imagenPequeña As ImageEx = pagina.FindName("imagenTilePequeña")
         imagenPequeña.Source = Nothing
 
@@ -353,15 +266,12 @@ Module Amazon
             imagenPequeña.Tag = juego.ImagenPequeña
         End If
 
-        If Not juego.ImagenAncha = Nothing Then
-            If Not juego.ImagenMediana = Nothing Then
-                imagenMediana.Source = juego.ImagenMediana
-                imagenMediana.Tag = juego.ImagenMediana
-            Else
-                imagenMediana.Source = juego.ImagenAncha
-                imagenMediana.Tag = juego.ImagenAncha
-            End If
+        If Not juego.ImagenMediana = Nothing Then
+            imagenMediana.Source = juego.ImagenMediana
+            imagenMediana.Tag = juego.ImagenMediana
+        End If
 
+        If Not juego.ImagenAncha = Nothing Then
             imagenAncha.Source = juego.ImagenAncha
             imagenAncha.Tag = juego.ImagenAncha
         End If

@@ -38,7 +38,6 @@
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        Configuracion.General.Cargar()
         Configuracion.Cache.Cargar()
         Configuracion.LimpiezaArchivos.Cargar()
         Interfaz.Juegos.Cargar()

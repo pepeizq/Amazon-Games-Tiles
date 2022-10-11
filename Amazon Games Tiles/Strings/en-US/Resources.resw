@@ -606,4 +606,7 @@
   <data name="ConfigFileCleaningClean.Text" xml:space="preserve">
     <value>Delete Files</value>
   </data>
+  <data name="Amazon_SelectGame.Text" xml:space="preserve">
+    <value>Select a game (you must have the game on Amazon Games Launcher)</value>
+  </data>
 </root>
